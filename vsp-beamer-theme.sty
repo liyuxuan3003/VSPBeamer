@@ -1,9 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemeVSP}[2026/08/20 v0.2.0 VSP Beamer theme]
+\ProvidesPackage{vsp-beamer-theme}[2026/08/20 v0.2.0 VSP Beamer theme]
 
 \RequirePackage{iftex}
 \ifXeTeX\else
-  \PackageError{beamerthemeVSP}{VSP requires XeLaTeX}{Compile with xelatex or latexmk -xelatex.}
+  \PackageError{vsp-beamer-theme}{VSP requires XeLaTeX}{Compile with xelatex or latexmk -xelatex.}
 \fi
 
 \RequirePackage{xeCJK}
@@ -20,7 +20,7 @@
 \newcommand{\VSPasset}[1]{#1}
 
 \IfFontExistsTF{Noto Serif CJK SC}{}{%
-  \PackageError{beamerthemeVSP}{Noto CJK system fonts were not found}
+  \PackageError{vsp-beamer-theme}{Noto CJK system fonts were not found}
     {Install the Noto CJK font package (for example, fonts-noto-cjk on Debian/Ubuntu).}%
 }
 \setCJKmainfont[AutoFakeSlant=0.18]{Noto Serif CJK SC}
