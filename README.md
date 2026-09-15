@@ -1,8 +1,15 @@
 # VSPBeamer
 
-VSPBeamer提供了一个适用于教学课件和正式汇报的文档类`vsp-beamer`，以Git子模块方式引入，基于`beamer`和`ctex`。
+VSPBeamer提供了一个上科大主题，适用于教学课件和正式汇报的文档类`vsp-beamer`，以Git子模块方式引入，基于`beamer`和`ctex`。
 
-VSPBeamer的名称沿用原VSP-Beamer项目。
+> VSPBeamer的上游是由Heaticy维护的一套Marp/Beamer模板，这是VSPLab的传统Slide模板
+>
+> - https://github.com/Heaticy/vsp-marp
+> - https://github.com/Heaticy/vsp-beamer
+>
+> 本项目从Heaticy的仓库剥离出了最核心的部分，使之成为一个可按子模块引入的独立组件，适配LumosLaTeX计划的组织方式。
+
+
 
 VSPBeamer是LumosLaTeX计划的一部分：https://github.com/liyuxuan3003/LumosLaTeX
 
@@ -10,10 +17,10 @@ VSPBeamer是LumosLaTeX计划的一部分：https://github.com/liyuxuan3003/Lumos
 
 ## 主要特点
 
-- 提供红色、紫色、奶龙黄色三套配色。
-- 提供tutorial和report两类封面。
-- 提供以上海科技大学为背景和品牌的shtu变体。
-- 统一的章节过渡页、青绿色分隔线、紧凑页脚、块环境和代码样式。
+- 提供红色和紫色两套配色。
+- 提供教程和报告两类封面。
+- 提供对上海科技大学背景和校徽的支持。
+- 专属奶龙主题（？）支持。
 - 16:9页面布局，字号由1280x720画布换算得到。
 - 使用Latin Modern西文字体和系统Noto CJK SC中文字体。
 
@@ -50,19 +57,11 @@ git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 \documentclass[red,tutorial,sectionpages]{vsp-beamer}
 ```
 
-若不使用`vsp-beamer`文档类，也可以基于标准`beamer`直接引入主题
-
-```latex
-\documentclass[aspectratio=169,10pt]{beamer}
-\usepackage[UTF8,fontset=none]{ctex}
-\usepackage[red,tutorial,sectionpages]{vsp-beamer-theme}
-```
-
 ## 自定义命令
 
 ### `\VSPtitleframe`、`\VSPsectionframe`、`\VSPendframe`
 
-页面框架命令。
+页面插入命令。
 
 | 命令 | 说明 |
 |------|------|
@@ -72,7 +71,7 @@ git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 
 ### `\VSPsetspeaker`、`\VSPspeakerblock`
 
-演讲者命令。
+信息设置命令。
 
 | 命令 | 说明 |
 |------|------|
@@ -81,20 +80,13 @@ git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 
 ### `\VSPsetupLogo`、`\VSPsetupNameLogo`、`\VSPbrandmark`
 
-品牌标志命令。
+内部命令。
 
 | 命令 | 说明 |
 |------|------|
 | `\VSPsetupLogo{file}` | 设置页眉标志图片 |
 | `\VSPsetupNameLogo{file}` | 设置名称标志图片 |
 | `\VSPbrandmark` | 输出页眉标志 |
-
-### `\VSPasset`、`\vspaccent`、`\vspmuted`
-
-素材与强调命令。
-
-| 命令 | 说明 |
-|------|------|
 | `\VSPasset{file}` | 返回素材文件名，配合`\graphicspath`使用 |
 | `\vspaccent{text}` | 使用主题强调色加粗输出文本 |
 | `\vspmuted{text}` | 使用弱化色输出文本 |
