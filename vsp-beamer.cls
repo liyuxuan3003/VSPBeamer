@@ -2,14 +2,21 @@
 \ProvidesClass{vsp-beamer}
 
 % -------------------------------- %
-% Load package <kvoptions> : Process key value options
-\RequirePackage{kvoptions}
-% Define kvoptions prefix
-\SetupKeyvalOptions{family=vspbeamer,prefix=vspbeamer@}
-% Define key <theme> : Select the VSP theme
-\DeclareStringOption[tutorial-red]{theme}
-% Process key
-\ProcessKeyvalOptions{vspbeamer}
+% Forward options to <vsp-beamer-theme>
+% red/purple/nailong         -> Color scheme
+% tutorial/report            -> Cover style
+% shtu                       -> ShanghaiTech variant
+% sectionpages/nosectionpages -> Automatic section pages
+\DeclareOption{red}{\PassOptionsToPackage{red}{vsp-beamer-theme}}
+\DeclareOption{purple}{\PassOptionsToPackage{purple}{vsp-beamer-theme}}
+\DeclareOption{nailong}{\PassOptionsToPackage{nailong}{vsp-beamer-theme}}
+\DeclareOption{shtu}{\PassOptionsToPackage{shtu}{vsp-beamer-theme}}
+\DeclareOption{tutorial}{\PassOptionsToPackage{tutorial}{vsp-beamer-theme}}
+\DeclareOption{report}{\PassOptionsToPackage{report}{vsp-beamer-theme}}
+\DeclareOption{sectionpages}{\PassOptionsToPackage{sectionpages}{vsp-beamer-theme}}
+\DeclareOption{nosectionpages}{\PassOptionsToPackage{nosectionpages}{vsp-beamer-theme}}
+% Process options
+\ProcessOptions\relax
 
 % -------------------------------- %
 % Load document class <beamer>
@@ -19,10 +26,10 @@
 
 % -------------------------------- %
 % Load package <ctex> : Chinese support
-% UTF8        -> Use UTF-8 encoding
+% UTF8         -> Use UTF-8 encoding
 % fontset=none -> Disable ctex font setting
 \RequirePackage[UTF8,fontset=none]{ctex}
 
 % -------------------------------- %
-% Load the selected beamer theme
-\usetheme{\vspbeamer@theme}
+% Load the VSP theme
+\RequirePackage{vsp-beamer-theme}
