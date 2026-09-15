@@ -22,7 +22,7 @@
 % Load document class <beamer>
 % aspectratio=169 -> Use 16:9 frame
 % 10pt            -> Use 10pt base font
-\LoadClass[aspectratio=169,10pt]{beamer}
+\LoadClass[aspectratio=169,10pt,noamsthm]{beamer}
 
 % -------------------------------- %
 % Load package <ctex> : Chinese support
