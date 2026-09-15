@@ -19,9 +19,14 @@ VSPBeamer是LumosLaTeX计划的一部分：https://github.com/liyuxuan3003/Lumos
 
 ## 文档选项
 
+选项直接传入文档类，由`vsp-beamer-theme`解析。
+
 | 选项 | 默认值 | 说明 |
 |------|--------|------|
-| `theme=` | `tutorial-red` | 主题，可选`tutorial-red`、`tutorial-red-shtu`、`tutorial-purple`、`tutorial-nailong`、`report-red`、`report-nailong` |
+| `red`、`purple`、`nailong` | `red` | 配色，三者互斥，后写覆盖先写 |
+| `tutorial`、`report` | `tutorial` | 封面样式，两者互斥，后写覆盖先写 |
+| `shtu` | 关闭 | 上海科技大学变体开关 |
+| `sectionpages`、`nosectionpages` | `sectionpages` | 自动章节页，两者互斥，后写覆盖先写 |
 
 ## 引入方式
 
@@ -31,26 +36,26 @@ VSPBeamer以Git子模块的形式引入项目
 git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 ```
 
-在主文件顶层指定输入路径
+在主文件顶层指定输入路径和素材搜索路径
 
 ```latex
 \makeatletter\def\input@path{{vsp-beamer}}\makeatother
+
+\graphicspath{{vsp-beamer/assets/}}
 ```
 
-指定素材搜索路径并使用文档类
+使用文档类
 
 ```latex
-\graphicspath{{vsp-beamer/assets/}}
-
-\documentclass[theme=tutorial-red]{vsp-beamer}
+\documentclass[red,tutorial,sectionpages]{vsp-beamer}
 ```
 
-若不使用`vsp-beamer`文档类，也可以基于标准`beamer`直接使用主题
+若不使用`vsp-beamer`文档类，也可以基于标准`beamer`直接引入主题
 
 ```latex
 \documentclass[aspectratio=169,10pt]{beamer}
 \usepackage[UTF8,fontset=none]{ctex}
-\usetheme{tutorial-red}
+\usepackage[red,tutorial,sectionpages]{vsp-beamer-theme}
 ```
 
 ## 自定义命令
@@ -124,7 +129,3 @@ git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 | 序号 | 格式 | 类型 | 说明 |
 |------|------|------|------|
 | 1 | `{title}` | 必选 | 标题内容 |
-
-## 许可证
-
-项目源代码使用MIT License。ShanghaiTech标识和Nailong图像的授权边界见[THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md)。
