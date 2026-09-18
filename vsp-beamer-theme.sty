@@ -164,6 +164,11 @@
 \setbeamerfont{footline}{family=\sffamily,size=\vspfooterfont}
 \setbeamerfont{page number}{family=\sffamily,size=\vsppagefont}
 
+% Paragraph spacing: beamer sets \parskip to zero by default, which makes
+% consecutive paragraphs indistinguishable. Restore a 6pt gap between them.
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
 \setbeamertemplate{itemize item}{\raise0.15ex\hbox{\color{VSPAccent}\rule{0.62ex}{0.62ex}}}
 \setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\color{VSPTeal}\scriptsize$\blacktriangleright$}}
 \setbeamertemplate{enumerate item}{%

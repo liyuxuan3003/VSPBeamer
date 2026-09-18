@@ -23,6 +23,7 @@ VSPBeamer是LumosLaTeX计划的一部分：https://github.com/liyuxuan3003/Lumos
 - 专属奶龙主题（？）支持。
 - 16:9页面布局，字号由1280x720画布换算得到。
 - 使用Latin Modern西文字体和系统Noto CJK SC中文字体。
+- 段间提供6pt间距，避免多段落页面粘连。
 
 ## 文档选项
 
