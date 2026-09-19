@@ -143,7 +143,7 @@
 \newcommand{\vspsubtitlefont}{\fontsize{14.88}{17.85}\selectfont}
 \newcommand{\vspheadingfont}{\fontsize{13.47}{16.16}\selectfont}
 \newcommand{\vspsubheadingfont}{\fontsize{10.63}{12.76}\selectfont}
-\newcommand{\vspsectionfont}{\fontsize{22.68}{27.22}\selectfont}
+\newcommand{\vspsectionfont}{\fontsize{35.43}{42.52}\selectfont}
 \newcommand{\vspfooterfont}{\fontsize{7.80}{9.45}\selectfont}
 \newcommand{\vsppagefont}{\fontsize{4.25}{5.10}\selectfont}
 \newcommand{\vspcodefont}{\fontsize{7.09}{8.51}\selectfont}
@@ -163,6 +163,10 @@
 \setbeamerfont{block title}{family=\sffamily,series=\bfseries,size=\vspbodyfont}
 \setbeamerfont{footline}{family=\sffamily,size=\vspfooterfont}
 \setbeamerfont{page number}{family=\sffamily,size=\vsppagefont}
+% Marp emphasis parity: \alert colors in the accent color and bolds, while
+% \textbf keeps its standard meaning. Beamer's own titles and labels use font
+% templates (series=\bfseries), not \alert, so they are unaffected.
+\setbeamerfont{alerted text}{series=\bfseries}
 
 % Paragraph spacing: beamer sets \parskip to zero by default, which makes
 % consecutive paragraphs indistinguishable. Restore a 6pt gap between them.
@@ -195,8 +199,10 @@
 \setbeamertemplate{footline}{%
   \leavevmode
   \ifvsp@shtu
+    % The shtu background image carries artwork in the bottom corners, so the
+    % three-slot row would be occluded; it renders on the end frame only.
     \hbox{%
-      \begin{beamercolorbox}[wd=\paperwidth,ht=0.31cm,dp=0.10cm,center]{footline}%
+      \begin{beamercolorbox}[wd=\paperwidth,ht=0.31cm,dp=0.20cm,center]{footline}%
         \tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
         inner xsep=4pt,inner ysep=1.5pt,font=\usebeamerfont{page number}] (p)
         {\insertframenumber\,/\,\inserttotalframenumber};
@@ -204,14 +210,14 @@
     }
   \else
     \hbox{%
-      \begin{beamercolorbox}[wd=.72\paperwidth,ht=0.31cm,dp=0.10cm,leftskip=.72cm]{footline}%
-        \color{VSPMuted}\usebeamerfont{footline}\insertshorttitle
-        \ifx\insertsectionhead\@empty\else\hspace{0.8em}{\color{VSPTeal}/}\hspace{0.8em}\insertsectionhead\fi
+      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,leftskip=.72cm]{footline}%
+        \color{VSPMuted}\usebeamerfont{footline}\vsp@footleft
       \end{beamercolorbox}%
-      \begin{beamercolorbox}[wd=.28\paperwidth,ht=0.31cm,dp=0.10cm,rightskip=.38cm plus1fil]{footline}%
-        \hfill\tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
-        inner xsep=4pt,inner ysep=1.5pt,font=\usebeamerfont{page number}] (p)
-        {\insertframenumber\,/\,\inserttotalframenumber};
+      \begin{beamercolorbox}[wd=.24\paperwidth,ht=0.31cm,dp=0.10cm,center]{footline}%
+        \color{VSPMuted}\usebeamerfont{footline}\vsp@footmid
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,rightskip=.72cm plus1fil]{footline}%
+        \hfill\color{VSPMuted}\usebeamerfont{footline}\vsp@footright
       \end{beamercolorbox}%
     }
   \fi
@@ -277,21 +283,29 @@
   \fi\fi
 }
 
+% Display-size section titles must wrap like Marp's CSS: break at spaces or
+% CJK boundaries only, never hyphenate, and never stretch inter-CJK glue.
+% \hyphenchar\font=-1 must follow the font-selecting command.
+\newcommand{\vsp@displaywrap}{\hyphenchar\font=-1 \frenchspacing\xeCJKsetup{CJKglue={\hskip 0pt}}}
+
 \setbeamertemplate{section page}{%
   \begin{tikzpicture}[remember picture,overlay]
     \ifvsp@nailong
       \fill[white] (current page.south west) rectangle (current page.north east);
       \node[opacity=.45,inner sep=0pt] at (current page.center)
         {\includegraphics[width=\paperwidth,height=\paperheight]{\VSPasset{nailong-bg.png}}};
-      \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth]
+      \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}]
         at ([xshift=.025cm,yshift=-.045cm]current page.center)
-        {\usebeamerfont{section title}\insertsection};
-      \node[text=white,align=center,text width=.86\paperwidth] at (current page.center)
-        {\usebeamerfont{section title}\insertsection};
+        {\vsp@displaywrap \insertsection};
+      \node[text=white,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}] at (current page.center)
+        {\vsp@displaywrap \insertsection};
     \else
       \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
-      \node[text=white,align=center,text width=.86\paperwidth] at (current page.center)
-        {\usebeamerfont{section title}\insertsection};
+      \node[text=white,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}] at (current page.center)
+        {\vsp@displaywrap \insertsection};
     \fi
   \end{tikzpicture}%
 }
@@ -310,15 +324,18 @@
         \fill[white] (current page.south west) rectangle (current page.north east);
         \node[opacity=.45,inner sep=0pt] at (current page.center)
           {\includegraphics[width=\paperwidth,height=\paperheight]{\VSPasset{nailong-bg.png}}};
-        \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth]
+        \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}]
           at ([xshift=.025cm,yshift=.135cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
-        \node[text=white,align=center,text width=.86\paperwidth] at ([yshift=.18cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+        \node[text=white,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}] at ([yshift=.18cm]current page.center)
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
       \else
         \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
-        \node[text=white,align=center,text width=.86\paperwidth] at ([yshift=.18cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+        \node[text=white,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}] at ([yshift=.18cm]current page.center)
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
       \fi
     \end{tikzpicture}
   \end{frame}}
@@ -337,12 +354,24 @@
           {\usebeamerfont{end title}Thank You};
         \node[text=VSPText,align=center,text width=.88\paperwidth] at ([yshift=.10\paperheight]current page.south)
           {\usebeamerfont{end subtitle}#1};
+        \node[anchor=south west,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([xshift=.72cm,yshift=.10cm]current page.south west) {\vsp@footleft};
+        \node[anchor=south,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([yshift=.10cm]current page.south) {\vsp@footmid};
+        \node[anchor=south east,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([xshift=-.72cm,yshift=.10cm]current page.south east) {\vsp@footright};
       \else
         \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
         \node[text=white] at ([yshift=.25cm]current page.center)
           {\usebeamerfont{end title}Thank You};
         \node[text=white!82] at ([yshift=-.52cm]current page.center)
           {\usebeamerfont{end subtitle}#1};
+        \node[anchor=south west,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([xshift=.72cm,yshift=.10cm]current page.south west) {\vsp@footleft};
+        \node[anchor=south,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([yshift=.10cm]current page.south) {\vsp@footmid};
+        \node[anchor=south east,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([xshift=-.72cm,yshift=.10cm]current page.south east) {\vsp@footright};
       \fi
     \end{tikzpicture}
   \end{frame}}
@@ -380,6 +409,14 @@
       {\vsp@speakerlabel}\hspace{.18cm}\vsp@speakername\\[.05cm]
     \hspace*{1.48cm}{\color{VSPMuted}\fontsize{8.50}{11.7}\selectfont\vsp@speakerdetail}
   \end{minipage}}
+
+\newcommand{\VSPsetupfootline}[3]{%
+  \def\vsp@footleft{#1}%
+  \def\vsp@footmid{#2}%
+  \def\vsp@footright{#3}}
+\def\vsp@footleft{}
+\def\vsp@footmid{}
+\def\vsp@footright{}
 
 \newtcolorbox{vspcallout}[2][VSPPrimary]{%
   size=minimal,
@@ -437,7 +474,7 @@
   numbers=left,
   numbersep=7pt,
   frame=single,
-  rulecolor=\color{VSPTeal},
+  rulecolor=\color{VSPPrimary!45!white},
   framerule=.4pt,
   framesep=6pt,
   showstringspaces=false,
