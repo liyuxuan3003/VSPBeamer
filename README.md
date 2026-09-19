@@ -79,7 +79,7 @@ git submodule add git@github.com:liyuxuan3003/VSPBeamer.git vsp-beamer
 |------|------|
 | `\VSPsetspeaker[label]{name}{detail}` | 设置封面的标签、姓名和详情，并同步`\author`和`\institute` |
 | `\VSPspeakerblock` | 输出封面的演讲者信息块 |
-| `\VSPsetupfootline{left}{middle}{right}` | 设置页尾三格（左/中/右），调用后完全由参数决定，传空即清空，尾页同步展示；未调用时非shtu页尾自动为左短标题/节名、右页码框，`shtu`变体保持居中页码框 |
+| `\VSPsetupfootline{left}{middle}{right}` | 设置页尾三格信息（左/中/右），默认为空，尾页同步展示；`shtu`变体页尾保持页码框，三格仅出现在尾页 |
 
 ### `\VSPsetupLogo`、`\VSPsetupNameLogo`、`\VSPbrandmark`
 

@@ -32,7 +32,6 @@
 \newif\ifvsp@shtu
 \newif\ifvsp@report
 \newif\ifvsp@sectionpages
-\newif\ifvsp@footauto
 \vsp@sectionpagestrue
 
 \DeclareOptionBeamer{red}{\vsp@purplefalse\vsp@nailongfalse}
@@ -197,26 +196,6 @@
   \end{tikzpicture}%
 }
 
-% Footline slots: \VSPsetupfootline fills all three slots and disables the
-% automatic contents below. Before it is called, the left slot carries the
-% short title with the current section, the right slot carries the raised
-% page number box, and the middle slot stays empty.
-\vsp@footautotrue
-\def\vsp@footleft{}
-\def\vsp@footmid{}
-\def\vsp@footright{}
-\newcommand{\vsp@footleft@auto}{\insertshorttitle
-  \ifx\insertsectionhead\@empty\else\hspace{0.8em}{\color{VSPTeal}/}\hspace{0.8em}\insertsectionhead\fi}
-\newcommand{\vsp@footright@auto}{%
-  \tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
-  inner xsep=4pt,inner ysep=1.5pt,font=\usebeamerfont{page number}] (p)
-  {\insertframenumber\,/\,\inserttotalframenumber};}
-\newcommand{\VSPsetupfootline}[3]{%
-  \vsp@footautofalse
-  \def\vsp@footleft{#1}%
-  \def\vsp@footmid{#2}%
-  \def\vsp@footright{#3}}
-
 \setbeamertemplate{footline}{%
   \leavevmode
   \ifvsp@shtu
@@ -232,13 +211,13 @@
   \else
     \hbox{%
       \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,leftskip=.72cm]{footline}%
-        \color{VSPMuted}\usebeamerfont{footline}\ifvsp@footauto\vsp@footleft@auto\else\vsp@footleft\fi
+        \color{VSPMuted}\usebeamerfont{footline}\vsp@footleft
       \end{beamercolorbox}%
       \begin{beamercolorbox}[wd=.24\paperwidth,ht=0.31cm,dp=0.10cm,center]{footline}%
         \color{VSPMuted}\usebeamerfont{footline}\vsp@footmid
       \end{beamercolorbox}%
-      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.20cm,rightskip=.72cm plus1fil]{footline}%
-        \hfill\color{VSPMuted}\usebeamerfont{footline}\ifvsp@footauto\vsp@footright@auto\else\vsp@footright\fi
+      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,rightskip=.72cm plus1fil]{footline}%
+        \hfill\color{VSPMuted}\usebeamerfont{footline}\vsp@footright
       \end{beamercolorbox}%
     }
   \fi
@@ -430,6 +409,14 @@
       {\vsp@speakerlabel}\hspace{.18cm}\vsp@speakername\\[.05cm]
     \hspace*{1.48cm}{\color{VSPMuted}\fontsize{8.50}{11.7}\selectfont\vsp@speakerdetail}
   \end{minipage}}
+
+\newcommand{\VSPsetupfootline}[3]{%
+  \def\vsp@footleft{#1}%
+  \def\vsp@footmid{#2}%
+  \def\vsp@footright{#3}}
+\def\vsp@footleft{}
+\def\vsp@footmid{}
+\def\vsp@footright{}
 
 \newtcolorbox{vspcallout}[2][VSPPrimary]{%
   size=minimal,
